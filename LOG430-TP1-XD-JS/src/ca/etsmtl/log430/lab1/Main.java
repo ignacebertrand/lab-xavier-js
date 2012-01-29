@@ -61,9 +61,11 @@ public class Main {
 		} else {
 
 			String inputFileName = argv[0];
-			String outputFileName = argv[1];
+//			String outputFileName1 = argv[1];
+			String outputFileName1 = "dataout.txt";
+			String outputFileName2 = "dataout2.txt";
 
-			// ***************SYSTEME A
+			// ****SYSTEME A****
 
 			// These are the declarations for the pipes.
 			PipedWriter pipe01 = new PipedWriter();// Texte original
@@ -71,7 +73,10 @@ public class Main {
 			PipedWriter pipe03 = new PipedWriter();// Lignes en EN
 			PipedWriter pipe04 = new PipedWriter();// Lignes en FRA qui contiennent le keyword
 			PipedWriter pipe05 = new PipedWriter();// Lignes en EN qui contiennent le keyword
-			PipedWriter pipe06 = new PipedWriter();// Merge des resultats
+			PipedWriter pipe06 = new PipedWriter();// Lignes en FRA qui contiennent pas le keyword
+			PipedWriter pipe07 = new PipedWriter();// Lignes en EN qui contiennent pas le keyword
+			PipedWriter pipe08 = new PipedWriter();// Merge des resultats qui contiennent les keywords
+			PipedWriter pipe09 = new PipedWriter();// Merge des resultats qui contiennent pas les keywords
 
 			// Instantiate the Program Filter Thread
 			Thread FileReaderFilter1 = new FileReaderFilter(inputFileName,
@@ -82,16 +87,23 @@ public class Main {
 
 			// Instantiate the Course Filter Threads
 			Thread KeywordFilter1 = new KeywordFilterA("conception", pipe02,
-					pipe04);
+					pipe04, pipe06);
 			Thread KeywordFilter2 = new KeywordFilterA("architecture", pipe03,
-					pipe05);
+					pipe05, pipe07);
 
 			// Instantiate the Merge Filter Thread
-			Thread MergeFilter1 = new MergeFilter(pipe04, pipe05, pipe06);
+			Thread MergeFilter1 = new MergeFilter(pipe04, pipe05, pipe08);
 
+			// Instantiate the Merge Filter Thread
+			Thread MergeFilter2 = new MergeFilter(pipe06, pipe07, pipe09);
+						
 			// Instantiate the FileWriter Filter Thread
-			Thread FileWriterFilter1 = new FileWriterFilter(outputFileName,
-					pipe06);
+			Thread FileWriterFilter1 = new FileWriterFilter(outputFileName1,
+					pipe08);
+			
+			// Instantiate the FileWriter Filter Thread
+			Thread FileWriterFilter2 = new FileWriterFilter(outputFileName2,
+								pipe09);
 
 			// Start the threads (these are the filters)
 			FileReaderFilter1.start();
@@ -99,7 +111,9 @@ public class Main {
 			KeywordFilter1.start();
 			KeywordFilter2.start();
 			MergeFilter1.start();
+			MergeFilter2.start();
 			FileWriterFilter1.start();
+			FileWriterFilter2.start();
 
 			// ***************SYSTEME B
 
