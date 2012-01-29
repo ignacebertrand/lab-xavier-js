@@ -216,7 +216,8 @@ public class MergeFilter extends Thread {
 		} // try
 
 		catch (Exception Error) {
-			System.out.println("MergeFilter:: Interrupted.");
+			System.out.println("MergeFilter:: Interrupted. !!!!!");
+			System.out.println(Error.getMessage());
 		} // catch
 
 		try {

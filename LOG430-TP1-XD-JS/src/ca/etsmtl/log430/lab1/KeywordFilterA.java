@@ -57,10 +57,11 @@ public class KeywordFilterA extends Thread {
 
 	String Keyword;
 	PipedReader InputPipe = new PipedReader();
-	PipedWriter OutputPipe = new PipedWriter();
+	PipedWriter OutputPipe1 = new PipedWriter();
+	PipedWriter OutputPipe2 = new PipedWriter();
 
 	public KeywordFilterA(String Keyword, PipedWriter InputPipe,
-			PipedWriter OutputPipe) {
+			PipedWriter OutputPipe1, PipedWriter OutputPipe2) {
 
 		this.Keyword = Keyword;
 
@@ -74,7 +75,9 @@ public class KeywordFilterA extends Thread {
 
 			// Connect OutputPipe to Merge
 
-			this.OutputPipe = OutputPipe;
+			this.OutputPipe1 = OutputPipe1;
+			this.OutputPipe2 = OutputPipe2;
+			
 			System.out.println("KeywordFilter " + Keyword
 					+ ":: connected to downstream filter.");
 
@@ -119,23 +122,40 @@ public class KeywordFilterA extends Thread {
 						System.out.println("KeywordFilter " + Keyword
 								+ ":: received: " + LineOfText + ".");
 
-					
 						if (LineOfText.indexOf(Keyword) != -1) {
 
+							//Reorganise la ligne dans l'ordre de sortie voulu (mot , ligne , langue)
 							String[] strArray = new String[200];
 							strArray = LineOfText.split(" ");
 							LineOfText = Keyword + " " + strArray[0] + " " + strArray[1] ;
 							
 							System.out.println("KeywordFilter "
 									+ Keyword + ":: sending: "
-									+ LineOfText + " to output pipe.");
+									+ LineOfText + " to output pipe 1.");
 							
 							LineOfText += new String(CharacterValue);
-							OutputPipe
+							OutputPipe1
 									.write(LineOfText, 0, LineOfText.length());
-							OutputPipe.flush();
+							OutputPipe1.flush();
+							OutputPipe1.close();
 
-						} // if
+						} else{
+							
+							//Reorganise la ligne dans l'ordre de sortie voulu (mot , ligne , langue)
+							String[] strArray = new String[200];
+							strArray = LineOfText.split(" ");
+							LineOfText = Keyword + " " + strArray[0] + " " + strArray[1] ;
+							
+							System.out.println("KeywordFilter "
+									+ Keyword + ":: sending: "
+									+ LineOfText + " to output pipe 2.");
+							
+							LineOfText += new String(CharacterValue);
+							OutputPipe2
+									.write(LineOfText, 0, LineOfText.length());
+							OutputPipe2.flush();
+							OutputPipe2.close();
+						}
 
 						LineOfText = "";
 
@@ -162,7 +182,7 @@ public class KeywordFilterA extends Thread {
 			System.out.println("KeywordFilter " + Keyword
 					+ ":: input pipe closed.");
 
-			OutputPipe.close();
+			OutputPipe1.close();
 			System.out.println("KeywordFilter " + Keyword
 					+ ":: output pipe closed.");
 
