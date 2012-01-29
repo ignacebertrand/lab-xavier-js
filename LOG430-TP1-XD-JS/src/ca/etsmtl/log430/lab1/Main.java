@@ -64,6 +64,10 @@ public class Main {
 					.println("\njava Main <fichier d'entree> <fichier de sortie>");
 
 		} else {
+			
+			String inputFileName = argv[0];
+			String outputFileName = argv[1];
+			
 			// These are the declarations for the pipes.
 			PipedWriter pipe01 = new PipedWriter();
 			PipedWriter pipe02 = new PipedWriter();
@@ -73,7 +77,7 @@ public class Main {
 			PipedWriter pipe06 = new PipedWriter();
 
 			// Instantiate the Program Filter Thread
-			Thread FileReaderFilter1 = new FileReaderFilter(argv[0], pipe01);
+			Thread FileReaderFilter1 = new FileReaderFilter(inputFileName, pipe01);
 
 			// Instantiate the LanguageFilter Thread
 			Thread LanguageFilter1 = new LanguageFilter(pipe01, pipe02, pipe03);
@@ -86,7 +90,7 @@ public class Main {
 			Thread MergeFilter1 = new MergeFilter(pipe04, pipe05, pipe06);
 
 			// Instantiate the FileWriter Filter Thread
-			Thread FileWriterFilter1 = new FileWriterFilter(argv[1], pipe06);
+			Thread FileWriterFilter1 = new FileWriterFilter(outputFileName, pipe06);
 
 			// Start the threads (these are the filters)
 			FileReaderFilter1.start();
