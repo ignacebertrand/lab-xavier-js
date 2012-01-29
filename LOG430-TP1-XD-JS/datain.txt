@@ -1,0 +1,4 @@
+001 EN software architecture engineering design sei
+002 FRA architecture logiciel genie conception
+003 EN abstraction cohesion coupling patterns 
+004 FRA abstraction cohesion couplage patrons styles

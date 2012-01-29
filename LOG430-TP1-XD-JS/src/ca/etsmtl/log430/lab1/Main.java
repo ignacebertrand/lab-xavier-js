@@ -3,47 +3,42 @@ package ca.etsmtl.log430.lab1;
 import java.io.PipedWriter;
 
 /**************************************************************************************
- ** Class name: Main Original author: A.J. Lattanze, CMU Date: 12/3/99
- ** Version 1.2
+ ** Class name: Main Original author: A.J. Lattanze, CMU Date: 12/3/99 Version
+ * 1.2
  ** 
  ** Adapted by R. Champagne, Ecole de technologie superieure 2002-May-08,
- ** 2011-Jan-12, 2012-Jan-11.
+ * 2011-Jan-12, 2012-Jan-11.
  ** 
  *************************************************************************************** 
  ** Purpose: Assignment 1 for LOG430, Architecture logicielle. This assignment is
- ** designed to illustrate a pipe and filter architecture. For the instructions,
- ** refer to the assignment write-up.
+ * designed to illustrate a pipe and filter architecture. For the instructions,
+ * refer to the assignment write-up.
  ** 
  ** Abstract: This class contains the main method for assignment 1. The
- ** assignment 1 program consists of these files:
+ * assignment 1 program consists of these files:
  ** 
- ** 1) Main: instantiates all filters and pipes, starts all filters.
- ** 2) FileReaderFilter: reads input file and sends each line to its output pipe.
- ** 3) LanguageFilter: separates the input stream in two languages (FRA, EN) and writes
- **    lines to the appropriate output pipe.
- ** 4) KeywordFilter: determines if an entry contains a particular keyword specified
- **    at instantiation. If so, sends the whole line to its output pipe.
- ** 5) MergeFilter: accepts inputs from 2 input pipes and writes them to its output pipe.
- ** 6) FileWriterFilter: sends its input stream to a text file.
+ ** 1) Main: instantiates all filters and pipes, starts all filters. 2)
+ * FileReaderFilter: reads input file and sends each line to its output pipe. 3)
+ * LanguageFilter: separates the input stream in two languages (FRA, EN) and
+ * writes lines to the appropriate output pipe. 4) KeywordFilter: determines if
+ * an entry contains a particular keyword specified at instantiation. If so,
+ * sends the whole line to its output pipe. 5) MergeFilter: accepts inputs from
+ * 2 input pipes and writes them to its output pipe. 6) FileWriterFilter: sends
+ * its input stream to a text file.
  ** 
  ** Pseudo Code:
  ** 
- ** instantiate all filters and pipes
- ** start FileReaderFilter
- ** start LanguageFilter
- ** start KeywordFilter for FRA
- ** start KeywordFilter for EN
- ** start MergeFilter
- ** start FileWriterFilter
+ ** instantiate all filters and pipes start FileReaderFilter start LanguageFilter
+ * start KeywordFilter for FRA start KeywordFilter for EN start MergeFilter
+ * start FileWriterFilter
  ** 
  ** Running the program
  ** 
  ** java Main IputFile OutputFile > DebugFile
  ** 
- ** Main - Program name
- ** InputFile - Text input file (see comments below)
- ** OutputFile - Text output file with students
- ** DebugFile - Optional file to direct debug statements
+ ** Main - Program name InputFile - Text input file (see comments below)
+ * OutputFile - Text output file with students DebugFile - Optional file to
+ * direct debug statements
  ** 
  ** Modification Log
  ************************************************************************************** 
@@ -64,33 +59,39 @@ public class Main {
 					.println("\njava Main <fichier d'entree> <fichier de sortie>");
 
 		} else {
-			
+
 			String inputFileName = argv[0];
 			String outputFileName = argv[1];
-			
+
+			// ***************SYSTEME A
+
 			// These are the declarations for the pipes.
-			PipedWriter pipe01 = new PipedWriter();
-			PipedWriter pipe02 = new PipedWriter();
-			PipedWriter pipe03 = new PipedWriter();
-			PipedWriter pipe04 = new PipedWriter();
-			PipedWriter pipe05 = new PipedWriter();
-			PipedWriter pipe06 = new PipedWriter();
+			PipedWriter pipe01 = new PipedWriter();// Texte original
+			PipedWriter pipe02 = new PipedWriter();// Lignes en FRA
+			PipedWriter pipe03 = new PipedWriter();// Lignes en EN
+			PipedWriter pipe04 = new PipedWriter();// Lignes en FRA qui contiennent le keyword
+			PipedWriter pipe05 = new PipedWriter();// Lignes en EN qui contiennent le keyword
+			PipedWriter pipe06 = new PipedWriter();// Merge des resultats
 
 			// Instantiate the Program Filter Thread
-			Thread FileReaderFilter1 = new FileReaderFilter(inputFileName, pipe01);
+			Thread FileReaderFilter1 = new FileReaderFilter(inputFileName,
+					pipe01);
 
 			// Instantiate the LanguageFilter Thread
 			Thread LanguageFilter1 = new LanguageFilter(pipe01, pipe02, pipe03);
 
 			// Instantiate the Course Filter Threads
-			Thread KeywordFilter1 = new KeywordFilter("conception", pipe02, pipe04);
-			Thread KeywordFilter2 = new KeywordFilter("architecture", pipe03, pipe05);
+			Thread KeywordFilter1 = new KeywordFilterA("conception", pipe02,
+					pipe04);
+			Thread KeywordFilter2 = new KeywordFilterA("architecture", pipe03,
+					pipe05);
 
 			// Instantiate the Merge Filter Thread
 			Thread MergeFilter1 = new MergeFilter(pipe04, pipe05, pipe06);
 
 			// Instantiate the FileWriter Filter Thread
-			Thread FileWriterFilter1 = new FileWriterFilter(outputFileName, pipe06);
+			Thread FileWriterFilter1 = new FileWriterFilter(outputFileName,
+					pipe06);
 
 			// Start the threads (these are the filters)
 			FileReaderFilter1.start();
@@ -99,9 +100,11 @@ public class Main {
 			KeywordFilter2.start();
 			MergeFilter1.start();
 			FileWriterFilter1.start();
-			
-		}  // if
-		
+
+			// ***************SYSTEME B
+
+		} // if
+
 	} // main
-	
+
 } // Main
