@@ -4,7 +4,7 @@ import java.io.PipedReader;
 import java.io.PipedWriter;
 
 /**************************************************************************************
- ** Class name: KeywordFilter
+ ** Class name: KeywordFilterOR
  ** Original author: A.J. Lattanze, CMU
  ** Date: 12/3/99
  ** Version 1.0
@@ -45,48 +45,59 @@ import java.io.PipedWriter;
  **
  ** Modification Log
  *
- *		01/30/2012 - With parameter "keywordWanted", one can use the filter to either
- *					 find lines WITH or WITHOUT the specified keyword.
+ *		01/30/2012 - This version of KeywordFilter receives multiple keywords in an array
+ *					 and, with the help of the "inclusive" boolean parameter, the class
+ *					 will output lines where the specified keywords are found following
+ *					 either an inclusive OR or exclusive OR pattern
  **************************************************************************************
  **
  **************************************************************************************/
 
 
-public class KeywordFilter extends Thread {
+public class KeywordFilterOR extends Thread {
 
 	// Declarations
 
 	boolean Done;
 
-	String Keyword;
-	boolean keywordWanted;
+	String[] Keywords;
+	boolean inclusive;
 	PipedReader InputPipe = new PipedReader();
 	PipedWriter OutputPipe = new PipedWriter();
 
-	public KeywordFilter(String Keyword, PipedWriter InputPipe,
-			PipedWriter OutputPipe, boolean keywordWanted) {
+	public KeywordFilterOR(String[] Keywords, PipedWriter InputPipe,
+			PipedWriter OutputPipe, boolean inclusive) {
 
-		this.Keyword = Keyword;
-		this.keywordWanted = keywordWanted;
+		this.Keywords = Keywords;
+		this.inclusive = inclusive;
 
 		try {
 
 			// Connect InputPipe to Main
 
 			this.InputPipe.connect(InputPipe);
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: connected to upstream filter.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: connected to upstream filter.\n");
 
 			// Connect OutputPipe to Merge
 
 			this.OutputPipe = OutputPipe;
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: connected to downstream filter.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: connected to downstream filter.\n");
 
 		} catch (Exception Error) {
 
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: Error connecting to other filters.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: Error connecting to other filters.\n");
 
 		} // try/catch
 
@@ -121,60 +132,69 @@ public class KeywordFilter extends Thread {
 
 					if (IntegerCharacter == '\n') { // end of line
 
-						System.out.println("KeywordFilter " + Keyword
-								+ ":: received: " + LineOfText + ".");
+						System.out.print("KeywordFilterOR ");
+						for(int i = 0; i < Keywords.length; i++) {
+							System.out.print(Keywords[i] + "-");
+						}
+						System.out.print(":: received: " + LineOfText + ".\n");
 
-						// Mot voulu et trouvé
-						if (keywordWanted && LineOfText.indexOf(Keyword) != -1) {
+						// Inclusive OR
+						if(inclusive) {
+							for(int i = 0; i < Keywords.length; i++) {
+								if (LineOfText.indexOf(Keywords[i]) != -1) {
 
-							System.out.println("KeywordFilter "
-									+ Keyword + ":: sending: "
-									+ LineOfText + " to output pipe.");
-							LineOfText += new String(CharacterValue);
-							OutputPipe
-									.write(LineOfText, 0, LineOfText.length());
-							OutputPipe.flush();
-
-						} // if
-						// Mot non voulu et non trouvé
-						else if(!keywordWanted && LineOfText.indexOf(Keyword) == -1) {
-							
-							System.out.println("KeywordFilter "
-									+ Keyword + ":: sending: "
-									+ LineOfText + " to output pipe.");
-							LineOfText += new String(CharacterValue);
-							OutputPipe
-									.write(LineOfText, 0, LineOfText.length());
-							OutputPipe.flush();
-							
-						} // else if
-
+									System.out.print("KeywordFilterOR ");
+									for(int j = 0; j < Keywords.length; j++) {
+										System.out.print(Keywords[j] + "-");
+									}
+									System.out.print(":: sending: " + LineOfText + " to output pipe.\n");
+									
+									LineOfText += new String(CharacterValue);
+									OutputPipe
+											.write(LineOfText, 0, LineOfText.length());
+									OutputPipe.flush();
+									break; // If one is found, no need to check the rest of the keywords
+								}
+							}
+						}
+						// Exclusive OR not yet implemented - not needed for assignment
 						LineOfText = "";
-
 					} else {
 						LineOfText += new String(CharacterValue);
 					} // if //
 				} // if
 			} // while
 		} catch (Exception Error) {
-			System.out.println("KeywordFilter::" + Keyword
-					+ " Interrupted.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: Interrupted.\n");
 		} // try/catch
 
 		try {
 
 			InputPipe.close();
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: input pipe closed.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: input pipe closed.\n");
 
 			OutputPipe.close();
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: output pipe closed.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: output pipe closed.\n");
 
 		} catch (Exception Error) {
 
-			System.out.println("KeywordFilter " + Keyword
-					+ ":: Error closing pipes.");
+			System.out.print("KeywordFilterOR ");
+			for(int i = 0; i < Keywords.length; i++) {
+				System.out.print(Keywords[i] + "-");
+			}
+			System.out.print(":: Error closing pipes.\n");
 
 		} // try/catch
 

@@ -140,7 +140,6 @@ public class LanguageFilter extends Thread {
 			} // while
 
 		} catch (Exception Error) {
-
 			System.out.println("LanguageFilter:: Interrupted.");
 
 		} // try/catch
