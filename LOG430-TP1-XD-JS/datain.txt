@@ -1,4 +1,14 @@
-001 EN software architecture engineering design sei
-002 FRA architecture logiciel genie conception
-003 EN abstraction cohesion coupling patterns 
+001 EN rien pentoute ici
+002 FRA architecture logicielle genie conception
+003 EN design software coupling patterns 
 004 FRA abstraction cohesion couplage patrons styles
+005 EN software lol engineering design sei
+006 FRA architecture haha genie conception
+007 EN abstraction design architecture patterns 
+008 FRA logicielle architecture sup
+009 EN abstraction software huh patterns 
+010 FRA conception logicielle lolwut
+011 EN what the fuck son? 
+012 FRA rien logicielle lolwut
+013 EN software architecture engineering design sei
+014 EN design software architecture patterns 

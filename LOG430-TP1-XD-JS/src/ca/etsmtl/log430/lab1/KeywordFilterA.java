@@ -137,7 +137,7 @@ public class KeywordFilterA extends Thread {
 							OutputPipe1
 									.write(LineOfText, 0, LineOfText.length());
 							OutputPipe1.flush();
-							OutputPipe1.close();
+							//OutputPipe1.close(); // Cause des bugs si placer ici
 
 						} else{
 							
@@ -154,7 +154,7 @@ public class KeywordFilterA extends Thread {
 							OutputPipe2
 									.write(LineOfText, 0, LineOfText.length());
 							OutputPipe2.flush();
-							OutputPipe2.close();
+							//OutputPipe2.close(); // Cause des bugs si placer ici
 						}
 
 						LineOfText = "";
@@ -183,6 +183,10 @@ public class KeywordFilterA extends Thread {
 					+ ":: input pipe closed.");
 
 			OutputPipe1.close();
+			System.out.println("KeywordFilter " + Keyword
+					+ ":: output pipe closed.");
+			
+			OutputPipe2.close();
 			System.out.println("KeywordFilter " + Keyword
 					+ ":: output pipe closed.");
 
