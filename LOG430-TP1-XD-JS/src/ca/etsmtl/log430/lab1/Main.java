@@ -133,9 +133,9 @@ public class Main {
 				PipedWriter pipe03 = new PipedWriter();// Lignes en EN
 				PipedWriter pipe04 = new PipedWriter();// Lignes en FRA qui contiennent le keyword "logicielle"
 				PipedWriter pipe05 = new PipedWriter();// Lignes en FRA qui contiennent au moins un des deux keywords "architecture"/"conception"
-				PipedWriter pipe07 = new PipedWriter();// Lignes en EN qui contiennent le keyword "software"
-				PipedWriter pipe08 = new PipedWriter();// Lignes en EN qui contiennent le keyword "design"
-				PipedWriter pipe09 = new PipedWriter();// Lignes en EN qui NE contiennent PAS le keyword "architecture"
+				PipedWriter pipe06 = new PipedWriter();// Lignes en EN qui contiennent le keyword "software"
+				PipedWriter pipe07 = new PipedWriter();// Lignes en EN qui contiennent le keyword "design"
+				PipedWriter pipe08 = new PipedWriter();// Lignes en EN qui NE contiennent PAS le keyword "architecture"
 
 				// Instantiate the Program Filter Thread
 				Thread FileReaderFilter1 = new FileReaderFilter(inputFileName,
@@ -152,17 +152,18 @@ public class Main {
 						pipe05, true);
 				// Anglais
 				Thread KeywordFilter3 = new KeywordFilter("software", pipe03,
+						pipe06, true);
+				Thread KeywordFilter4 = new KeywordFilter("design", pipe06,
 						pipe07, true);
-				Thread KeywordFilter4 = new KeywordFilter("design", pipe07,
-						pipe08, true);
-				Thread KeywordFilter5 = new KeywordFilter("architecture", pipe08,
-						pipe09, false);
+				Thread KeywordFilter5 = new KeywordFilter("architecture", pipe07,
+						pipe08, false);
 				
 				
 				// Ecriture des resultats Francais
 				Thread FileWriterFilter1 = new FileWriterFilter(outputFileName1, pipe05);
+				
 				// Ecriture des resultats Anglais
-				Thread FileWriterFilter2 = new FileWriterFilter(outputFileName2, pipe09);
+				Thread FileWriterFilter2 = new FileWriterFilter(outputFileName2, pipe08);
 
 				// Start the threads (these are the filters)
 				FileReaderFilter1.start();
