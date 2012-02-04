@@ -23,7 +23,7 @@ import java.io.PipedWriter;
  **      If this string appears in the stream from Main, to the output stream.
  ** 
  ** Pseudo Code:
- **
+ **0
  ** 	connect to input pipe
  ** 	connect to output pipe
  **
