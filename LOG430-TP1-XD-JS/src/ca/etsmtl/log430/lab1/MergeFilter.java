@@ -3,6 +3,7 @@ package ca.etsmtl.log430.lab1;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 
+
 /**************************************************************************************
  ** Class name: MergeFilter
  ** Original author: A.J. Lattanze, CMU
@@ -104,6 +105,8 @@ public class MergeFilter extends Thread {
 			// lines of text from input pipes #1 and #2
 			String LineOfText1 = "";
 			String LineOfText2 = "";
+			
+			
 
 			// Indicate whether lines of text are ready to be output
 			// to downstream filters

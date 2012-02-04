@@ -77,7 +77,9 @@ public class Main {
 				PipedWriter pipe07 = new PipedWriter();// Lignes en EN qui contiennent pas le keyword
 				PipedWriter pipe08 = new PipedWriter();// Merge des resultats qui contiennent les keywords
 				PipedWriter pipe09 = new PipedWriter();// Merge des resultats qui contiennent pas les keywords
+				PipedWriter pipe10 = new PipedWriter();// Résultats contenants des keywords triés en ordre alphabétique
 
+				
 				// Instantiate the Program Filter Thread
 				Thread FileReaderFilter1 = new FileReaderFilter(inputFileName,
 						pipe01);
@@ -96,10 +98,14 @@ public class Main {
 
 				// Instantiate the Merge Filter Thread
 				Thread MergeFilter2 = new MergeFilter(pipe06, pipe07, pipe09);
+				
+				//Instantiate the AlphabeticSortFilter
+				Thread AlphabeticSortFilter1 = new AlphabeticSortFilter(pipe08,pipe10);
 							
+				
 				// Instantiate the FileWriter Filter Thread
 				Thread FileWriterFilter1 = new FileWriterFilter(outputFileName1,
-						pipe08);
+						pipe10);
 				
 				// Instantiate the FileWriter Filter Thread
 				Thread FileWriterFilter2 = new FileWriterFilter(outputFileName2,
@@ -112,6 +118,7 @@ public class Main {
 				KeywordFilter2.start();
 				MergeFilter1.start();
 				MergeFilter2.start();
+				AlphabeticSortFilter1.start();
 				FileWriterFilter1.start();
 				FileWriterFilter2.start();
 			}
@@ -151,7 +158,7 @@ public class Main {
 				Thread KeywordFilter5 = new KeywordFilter("architecture", pipe08,
 						pipe09, false);
 				
-							
+				
 				// Ecriture des resultats Francais
 				Thread FileWriterFilter1 = new FileWriterFilter(outputFileName1, pipe05);
 				// Ecriture des resultats Anglais
