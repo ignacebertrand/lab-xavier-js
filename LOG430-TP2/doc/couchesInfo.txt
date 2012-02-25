@@ -1,0 +1,26 @@
+﻿Classe "main" : TeacherAssignment
+
+
+PRESENTATION
+
+Displays
+Menus
+
+
+GESTION
+
+CourseList
+CourseReader
+LineOfTextFileReader
+List
+TeacherList
+TeacherReader
+Termio
+Validator (ajout)
+
+
+
+DONNEES
+
+Teacher
+Course
