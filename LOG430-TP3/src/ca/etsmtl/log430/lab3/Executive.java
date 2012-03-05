@@ -53,6 +53,9 @@ public class Executive extends Communication {
 		addToReceiverList("ListCoursesAssignedToTeacherComponent");
 		addToReceiverList("ListTeachersAssignedToCourseComponent");
 		addToReceiverList("AssignTeacherToCourse");
+		// LOG430 MODIFICATION 1
+		addToReceiverList("ListCoursesPreviouslyAssignedToTeacherComponent");
+		
 
 		while (!done) {
 			userChoice = menu.mainMenu();
@@ -78,6 +81,16 @@ public class Executive extends Communication {
 				signalReceivers("AssignTeacherToCourse");
 				break;
 
+			// LOG430 MODIFICATION 1
+			case '6':
+				signalReceivers("ListCoursesPreviouslyAssignedToTeacherComponent");
+				break;
+			
+			// LOG430 MODIFICATION 2
+			case '7':
+				
+				break;
+				
 			case 'X':
 			case 'x':
 				done = true;
