@@ -44,11 +44,10 @@ public class SystemInitialize {
 				"ListTeachersAssignedToCourseComponent");
 		
 		// LOG430 MODIFICATION 1
-		new ListCoursesPreviouslyAssignedToTeacherComponent(new Integer(105),
-				"ListCoursesPreviouslyAssignedToTeacherComponent");
+		new ListCoursesPreviouslyAssignedToTeacherComponent(new Integer(105),"ListCoursesPreviouslyAssignedToTeacherComponent");
 
 		// LOG430 MODIFICATION 2
-		//...
+		new ListUnassignedCoursesComponent(new Integer(106),"ListUnassignedCoursesComponent");
 		
 		Executive executiveComponent = new Executive(new Integer(107),
 				"ExecutiveComponent");

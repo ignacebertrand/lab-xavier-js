@@ -1,5 +1,6 @@
 package ca.etsmtl.log430.lab3;
 
+
 /**
  * Presents the user with menus, accepts their choice, ensures their choice is
  * valid, and returns their choice to the caller.
@@ -127,5 +128,27 @@ public class Menus {
 					.println(" Section:" + userChoiceGroup + " not found ***");
 		}
 		return (courseObject);
+	}
+	
+	/**
+	 * Demands a confirmation from the user
+	 * (LOG430 MODIFICATION 3)
+	 * 
+	 * @return String 'Y' for Yes, 'N' for No, null for invalid answer
+	 */
+	public String askConfirmation() {
+		Termio terminal = new Termio();
+		String userChoice;
+		
+		System.out.print("\nConfirm your choice by entering 'Y' or cancel by entering 'N' and press return >> ");
+		userChoice = terminal.keyboardReadString();
+		
+		if(!userChoice.equalsIgnoreCase("Y") && !userChoice.equalsIgnoreCase("N")) {
+			System.out.print("\n\n*** Invalid Choice:: " + userChoice
+					+ " , Cancelling***");
+			userChoice = null;
+		}
+		
+		return userChoice;
 	}
 }
