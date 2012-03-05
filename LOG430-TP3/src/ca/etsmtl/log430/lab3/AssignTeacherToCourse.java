@@ -91,19 +91,19 @@ public class AssignTeacherToCourse extends Communication {
 						} else {
 							canAdd = false;
 						}
-
-						// Aucun probleme empechant l'assignation, on ajoute
-						if (canAdd) {
-							myCourse.assignTeacher(myTeacher);
-							myTeacher.assignCourse(myCourse);
-						}
-					} else {
-						System.out.println("\n\n *** Course not found ***");
+					}
+					// Aucun probleme empechant l'assignation, on ajoute
+					if (canAdd) {
+						myCourse.assignTeacher(myTeacher);
+						myTeacher.assignCourse(myCourse);
 					}
 				} else {
-					System.out.println("\n\n *** Teacher not found ***");
+					System.out.println("\n\n *** Course not found ***");
 				}
+			} else {
+				System.out.println("\n\n *** Teacher not found ***");
 			}
+
 		}
 	}
 
