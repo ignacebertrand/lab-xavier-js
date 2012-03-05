@@ -1,5 +1,6 @@
 package ca.etsmtl.log430.lab3;
 
+
 /**
  * Displays various types of information on courses and teachers (individually
  * and as lists) to the screen.
@@ -243,4 +244,39 @@ public class Displays {
 
 	} // DisplayCourseList
 
+	
+	/**
+	 * Lists the courses previously assigned to a teacher before this term.
+	 * (LOG430 MODIFICATION 1)
+	 * 
+	 * @param teacher
+	 */
+	public void displayCoursesPreviouslyAssignedToTeacher(Teacher teacher) {
+		boolean done;
+		Course course;
+
+		System.out.print("\nCourses assigned before this term to : "
+				+ teacher.getFirstName() + " ");
+		System.out
+				.println(teacher.getLastName() + " " + teacher.getTeacherID());
+		lineCheck(2);
+		System.out
+				.println("========================================================= ");
+		lineCheck(1);
+
+		teacher.getCoursesTaughtList().goToFrontOfList();
+		done = false;
+
+		while (!done) {
+			course = teacher.getCoursesTaughtList().getNextCourse();
+
+			if (course == null) {
+				done = true;
+			} else {
+				System.out.println(course.getCourseID());
+				lineCheck(1);
+			} // if
+		} // while
+	} // displayCoursesPreviouslyAssignedToTeacher
+	
 } // Display

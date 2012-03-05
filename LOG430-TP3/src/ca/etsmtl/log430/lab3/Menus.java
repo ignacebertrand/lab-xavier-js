@@ -52,6 +52,8 @@ public class Menus {
 			System.out
 					.println("4) List teacher(s) currently assigned to a course this term");
 			System.out.println("5) Assign a teacher to a course");
+			System.out.println("6) List courses previously assigned to a teacher before this term"); // LOG430 MODIFICATION 1
+			System.out.println("7) List courses that still have not been assigned to a teacher this term"); // LOG430 MODIFICATION 2
 			System.out.println("X) Exit");
 			System.out.print("\n\nEnter your choice and press return >> ");
 
