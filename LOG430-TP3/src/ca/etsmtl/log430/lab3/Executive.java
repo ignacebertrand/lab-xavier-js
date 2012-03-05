@@ -55,6 +55,8 @@ public class Executive extends Communication {
 		addToReceiverList("AssignTeacherToCourse");
 		// LOG430 MODIFICATION 1
 		addToReceiverList("ListCoursesPreviouslyAssignedToTeacherComponent");
+		// LOG430 MODIFICATION 2
+		addToReceiverList("ListUnassignedCoursesComponent");
 		
 
 		while (!done) {
@@ -88,7 +90,7 @@ public class Executive extends Communication {
 			
 			// LOG430 MODIFICATION 2
 			case '7':
-				
+				signalReceivers("ListUnassignedCoursesComponent");
 				break;
 				
 			case 'X':

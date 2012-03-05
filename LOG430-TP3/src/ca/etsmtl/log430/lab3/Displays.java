@@ -244,7 +244,6 @@ public class Displays {
 
 	} // DisplayCourseList
 
-	
 	/**
 	 * Lists the courses previously assigned to a teacher before this term.
 	 * (LOG430 MODIFICATION 1)
@@ -278,5 +277,97 @@ public class Displays {
 			} // if
 		} // while
 	} // displayCoursesPreviouslyAssignedToTeacher
+
+	/**
+	 * Lists the courses that are still not currently assigned to a teacher this term.
+	 * (LOG430 MODIFICATION 2)
+	 * 
+	 * @param cList
+	 */
+	public void displayUnassignedCourses(CourseList cList) {
+		boolean done;
+		Course course;
+		TeacherList tList;
+
+		System.out.println("Courses still unassigned this term : ");
+		lineCheck(1);
+		System.out
+				.println("========================================================= ");
+		lineCheck(1);
+
+		done = false;
+		cList.goToFrontOfList();
+
+		while (!done) {
+			course = cList.getNextCourse();
+
+			if (course == null) {
+				done = true;
+			} else {
+				tList = course.getTeachers();
+				
+				// Affiche les cours avec aucun enseignant
+				// qui ne sont pas de type LAB
+				if(tList.size() == 0 && !course.getType().equalsIgnoreCase("LAB")) {
+					displayCourse(course);
+					lineCheck(2);
+				} // if
+			} // if
+		} // while
+	} // displayUnassignedCourses
 	
+	/**
+	 * Displays a warning when a course is about to be assigned 
+	 * to more than one teacher for the same term.
+	 * (LOG430 MODIFICATION 3)
+	 * 
+	 * @param teacher
+	 */
+	public void displayMultipleAssignmentWarning(Teacher teacher) {
+		
+		System.out.println("\nWarning! This course is already assigned for this term.");
+		lineCheck(2);
+		System.out.print("\nDo you also want to assign this course to : "
+				+ teacher.getFirstName() + " ");
+		System.out
+				.println(teacher.getLastName() + " " + teacher.getTeacherID() + "?");
+		lineCheck(2);
+		
+	} // displayMultipleAssignmentWarning
+	
+	/**
+	 * Displays a warning when a teacher has a schedule conflict
+	 * with a course that is about to be assigned to him
+	 * (LOG430 MODIFICATION 4a)
+	 * 
+	 * @param teacher
+	 */
+	public void displayScheduleConflictWarning(Teacher teacher) {
+		
+		System.out.println("\nWarning! Assigning this course to " + teacher.getFirstName()
+				+ " " + teacher.getLastName() + " would generate a schedule conflict.");
+		lineCheck(2);
+		System.out.println("\nSystem can not comply with requested operation. Sorry!");
+		lineCheck(2);
+		
+	} // displayScheduleConflictWarning
+	
+	/**
+	 * Displays a warning when a course is about to be assigned 
+	 * to a teacher whose maximum number of assignments for the
+	 * year has already been reached.
+	 * (LOG430 MODIFICATION 4b)
+	 * 
+	 * @param teacher
+	 */
+	public void displayMaximumNumberOfAssignmentsWarning(Teacher teacher) {
+		
+		System.out.println("\nWarning! " + teacher.getFirstName()+ " " + teacher.getLastName()
+				+ " has already reached his maximum number of CRS assignments allowed for the year.");
+		lineCheck(2);
+		System.out.println("\nSystem can not comply with requested operation. Sorry!");
+		lineCheck(2);
+		
+	} // displayMaximumNumberOfAssignmentsWarning
+
 } // Display

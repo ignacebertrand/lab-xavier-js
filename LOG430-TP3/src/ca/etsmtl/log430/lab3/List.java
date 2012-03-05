@@ -75,4 +75,9 @@ public class List {
 	void goToFrontOfList() {
 		vectorIndex = 0;
 	}
+
+	public int size() {
+		
+		return itemList.size();
+	}
 }
